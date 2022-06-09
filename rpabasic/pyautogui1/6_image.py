@@ -9,6 +9,42 @@ import pyautogui as p
 # print(screen_locate) # Box(left=171, top=264, width=300, height=400)
 
 
-screen_locate = p.locateOnScreen("./rpabasic/pyautogui1/file_menu.png")
-# print(screen_locate)  # None / Box(left=40, top=1, width=46, height=34)
-p.click(screen_locate)
+# screen_locate = p.locateOnScreen("./rpabasic/pyautogui1/file_menu.png", confidence=0.9)
+# # print(screen_locate)  # None / Box(left=40, top=1, width=46, height=34)
+# p.click(screen_locate)
+
+
+# locateAllOnScreen() : 찾아야 하는 이미지가 여러개 있는 경우
+# p.sleep(2)
+# for i in p.locateAllOnScreen("./rpabasic/pyautogui1/checkbox.png", confidence=0.9):
+#     print(i)
+#     p.click(i)
+
+# 찾아야 하는 대상이 화면에 늦게 나타나는 경우
+
+# 찾을 떄까지 반복시키기
+# file_menu = p.locateOnScreen("./rpabasic/pyautogui1/checkbox.png", confidence=0.9)
+# while file_menu is None:
+#     file_menu = p.locateOnScreen("./rpabasic/pyautogui1/checkbox.png", confidence=0.9)
+#     print("발견할 수 없음")
+
+# p.click(file_menu)
+
+
+# 일정한 시간만큼만 기다리기
+import time, sys
+
+timeout = 10
+
+start = time.time()
+file_menu = p.locateOnScreen("./rpabasic/pyautogui1/checkbox.png", confidence=0.9)
+while file_menu is None:
+    file_menu = p.locateOnScreen("./rpabasic/pyautogui1/checkbox.png", confidence=0.9)
+
+    end = time.time()
+
+    if end - start > timeout:
+        print("시간종료")
+        sys.exit()
+
+p.click(file_menu)
